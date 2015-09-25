@@ -29,12 +29,13 @@ VALID_TRACKING_EVENT_TYPES = [
    'resume',
    'fullscreen',
    'exitFullscreen',
+   'skip',
+   'progress',
+
    'expand',
    'collapse',
    'acceptInvitationLinear',
-   'closeLinear',
-   'skip',
-   'progress'
+   'closeLinear'
 ]
 
 
@@ -48,7 +49,7 @@ class TrackingEvent(object):
             raise Exception("""The supplied Tracking `event` {event} is not a valid Tracking event.
             Valid tracking events: {events}""".format(
                 event=event,
-                events="\n".join(VALID_TRACKING_EVENT_TYPES)
+                events=",".join(VALID_TRACKING_EVENT_TYPES)
             ))
 
         if event == "progress":

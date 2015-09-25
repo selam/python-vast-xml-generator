@@ -66,7 +66,7 @@ class VAST(object):
                                         if icon.view:
                                             response.IconViewTracking(icon.view)
                         response.Duration(creative.duration)
-                        with response.TrakingEvents:
+                        with response.TrackingEvents:
                             for event in creative.trackingEvents:
                                 if track:
                                     attrs = {"event": event.event}
@@ -76,9 +76,10 @@ class VAST(object):
                         if creative.AdParameters:
                             response.AddParameters(creative.AdParameters)
                         with response.VideoClicks:
-                            for click in creative.clicks:
+                            for click in creative.videoClicks:
                                 attr = getattr(response, click["type"])
-                                attr(click.url, **{"id": click.id})
+                                attr(click["url"], **{"id": click.get("id", "")})
+
                         with response.MediaFiles:
                             for media in creative.mediaFiles:
                                 response.MediaFile(media["url"], **media["attributes"])
@@ -154,7 +155,7 @@ class VAST(object):
                             response.Error(self.cdata(ad.Error))
                         for impression in ad.impressions:
                             if track:
-                                response.Impression(self.cdata(impression.url))
+                                response.Impression(self.cdata(impression["url"]))
                         self.add_creatives(response, ad, track)
                 else:
                     with response.InLine:
@@ -174,7 +175,7 @@ class VAST(object):
 
                         for impression in ad.impressions:
                             if track:
-                                response.Impression(self.cdata(impression.url))
+                                response.Impression(self.cdata(impression["url"]))
 
                         self.add_creatives(response, ad, track)
 
