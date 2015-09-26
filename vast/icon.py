@@ -44,17 +44,6 @@ class Icon(object):
             resource["creativeType"] = creativeType
         self.resource = resource
 
-    def setResource(self, _type, uri, creativeType=None):
-        if _type not in ('StaticResource', "IFrameResource", "HTMLResource"):
-            raise Exception("Invalid resource type")
-
-        resource = {"type": _type, "uri": uri}
-        if _type == 'HTMLResource':
-            resource["html"] = uri
-        if creativeType:
-            resource["creativeType"] = creativeType
-        self.resource = resource
-
     def setClickThrough(self, uri):
         self.clickThrough = uri
         return self
