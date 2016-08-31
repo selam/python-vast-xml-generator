@@ -133,7 +133,7 @@ class VAST(object):
                                 response.CompanionClickThrough(click)
 
                             if creative.nonLinearClickEvent:
-                                response.CompanionClickTracking(creative.nonLinearClickEvent)
+                                response.NonLinearClickTracking(creative.nonLinearClickEvent)
 
     def xml(self, options={}):
         track = True if options.get("track", True)  else options.get("track")
