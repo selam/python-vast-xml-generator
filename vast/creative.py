@@ -15,8 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-from companionAd import CompanionAd
 from icon import Icon
 from trackingEvent import TrackingEvent
 
@@ -39,7 +37,8 @@ class Creative(object):
         self.attributes = {}
         self.duration = settings.get("Duration", None)
         self.skipoffset = settings.get("skipoffset", None)
-        self.nonLinearClickEvent = None
+        self.nonLinearClickThrough = None
+        self.nonLinearClickTracking = None
 
         if _type == "Linear" and self.duration is None:
             raise Exception('A Duration is required for all creatives. Consider defaulting to "00:00:00"')
@@ -68,9 +67,9 @@ class Creative(object):
         media_file = {"attributes": {}}
         media_file["url"] = url
         media_file["attributes"]["type"] = settings.get("type", 'video/mp4')
-        media_file["attributes"]["width"] = settings.get("width",'640')
+        media_file["attributes"]["width"] = settings.get("width", '640')
         media_file["attributes"]["height"] = settings.get("height", '360')
-        media_file["attributes"]["delivery"]= settings.get("delivery",  'progressive')
+        media_file["attributes"]["delivery"] = settings.get("delivery", 'progressive')
         if "id" not in settings:
             raise Exception('an `id` is required for all media files')
 
@@ -131,5 +130,8 @@ class Creative(object):
         self._adParameters = {"data": data, "xmlEncoded": xml_encoded}
         return self
 
+    def attachNonLinearClickThrough(self, url):
+        self.nonLinearClickThrough = url
+
     def attachNonLinearClickTracking(self, url):
-        self.nonLinearClickEvent = url
+        self.nonLinearClickTracking = url
