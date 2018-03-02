@@ -104,8 +104,8 @@ class VAST(object):
                                     })
                                 if creative.nonLinearClickThrough:
                                     response.NonLinearClickThrough(self.cdata(creative.nonLinearClickThrough))
-                                if creative.nonLinearClickEvent:
-                                    response.NonLinearClickTracking(self.cdata(creative.nonLinearClickEvent))
+                                if creative.nonLinearClickTracking:
+                                    response.NonLinearClickTracking(self.cdata(creative.nonLinearClickTracking))
 
             if len(companionAdCreatives) > 0:
                 with response.CompanionAds:
