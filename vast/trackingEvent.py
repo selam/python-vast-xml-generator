@@ -16,26 +16,26 @@
 # limitations under the License.
 
 VALID_TRACKING_EVENT_TYPES = [
-   'creativeView',
-   'start',
-   'firstQuartile',
-   'midpoint',
-   'thirdQuartile',
-   'complete',
-   'mute',
-   'unmute',
-   'pause',
-   'rewind',
-   'resume',
-   'fullscreen',
-   'exitFullscreen',
-   'skip',
-   'progress',
+    'creativeView',
+    'start',
+    'firstQuartile',
+    'midpoint',
+    'thirdQuartile',
+    'complete',
+    'mute',
+    'unmute',
+    'pause',
+    'rewind',
+    'resume',
+    'fullscreen',
+    'exitFullscreen',
+    'skip',
+    'progress',
 
-   'expand',
-   'collapse',
-   'acceptInvitationLinear',
-   'closeLinear'
+    'expand',
+    'collapse',
+    'acceptInvitationLinear',
+    'closeLinear'
 ]
 
 

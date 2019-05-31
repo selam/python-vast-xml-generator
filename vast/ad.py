@@ -17,7 +17,6 @@
 
 from creative import Creative
 
-
 REQUIRED_INLINE = ['AdSystem', 'AdTitle']
 REQUIRED_WRAPPER = ['AdSystem', 'VASTAdTagURI']
 
@@ -65,7 +64,7 @@ class Ad(object):
         self.Extensions = settings.get("Extensions", None)
 
     def attachSurvey(self, settings):
-        survey={"url": settings.url}
+        survey = {"url": settings.url}
         if "type" in settings:
             survey["type"] = settings["type"]
         self.surveys.append(survey)
@@ -78,4 +77,3 @@ class Ad(object):
         creative = Creative(_type, options)
         self.creatives.append(creative)
         return creative
-

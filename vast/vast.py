@@ -31,11 +31,9 @@ class VAST(object):
         return ad
 
     def cdata(self, param):
-        return param
-        #return """<![CDATA[
-        #{param}
-        #]]>""".format(param=param)
-        #
+        return """<![CDATA[
+        {param}
+        ]]>""".format(param=param)
 
     def add_creatives(self, response, ad, track):
         linearCreatives = [c for c in ad.creatives if c.type == "Linear"]
@@ -56,15 +54,15 @@ class VAST(object):
                                         if "creativeType" in icon.resource:
                                             attributes["creativeType"] = icon.resource["creativeType"]
                                         attr = getattr(response, icon.resource["type"])
-                                        attr(icon.resource["uri"], **attributes)
+                                        attr(self.cdata(icon.resource["uri"]), **attributes)
                                         if icon.click or icon.clickThrough:
                                             with response.IconClicks:
                                                 if icon.clickThrough:
-                                                    response.IconClickThrough(icon.clickThrough)
+                                                    response.IconClickThrough(self.cdata(icon.clickThrough))
                                                 if icon.click:
-                                                    response.IconClickTraking(icon.click)
+                                                    response.IconClickTraking(self.cdata(icon.click))
                                         if icon.view:
-                                            response.IconViewTracking(icon.view)
+                                            response.IconViewTracking(self.cdata(icon.view))
                         response.Duration(creative.duration)
                         with response.TrackingEvents:
                             for event in creative.trackingEvents:
@@ -72,17 +70,17 @@ class VAST(object):
                                     attrs = {"event": event.event}
                                     if event.offset:
                                         attrs["offset"] = event.offset
-                                    response.Tracking(event.url, **attrs)
+                                    response.Tracking(self.cdata(event.url), **attrs)
                         if creative.AdParameters:
                             response.AddParameters(creative.AdParameters)
                         with response.VideoClicks:
                             for click in creative.videoClicks:
                                 attr = getattr(response, click["type"])
-                                attr(click["url"], **{"id": click.get("id", "")})
+                                attr(self.cdata(click["url"]), **{"id": click.get("id", "")})
 
                         with response.MediaFiles:
                             for media in creative.mediaFiles:
-                                response.MediaFile(media["url"], **media["attributes"])
+                                response.MediaFile(self.cdata(media["url"]), **media["attributes"])
 
             if len(nonLinearCreatives) > 0:
                 for creative in nonLinearCreatives:
@@ -94,18 +92,20 @@ class VAST(object):
                                     if "creativeType" in resource:
                                         attrs["creativeType"] = resource["creativeType"]
                                     element = getattr(response, resource["type"])
-                                    element(resource["uri"], **attrs)
+                                    element(self.cdata(resource["uri"]), **attrs)
 
                                 for click in creative.clicks:
                                     element = getattr(response, click["type"])
-                                    element(click["uri"])
+                                    element(self.cdata(click["uri"]))
 
                                 if creative.AdParameters:
                                     response.AdParameters(creative.AdParameters["data"], **{
                                         "xmlEncoded": creative.AdParameters["xmlEncoded"]
                                     })
-                                if creative.nonLinearClickEvent:
-                                    response.NonLinearClickTracking(creative.nonLinearClickEvent)
+                                if creative.nonLinearClickThrough:
+                                    response.NonLinearClickThrough(self.cdata(creative.nonLinearClickThrough))
+                                if creative.nonLinearClickTracking:
+                                    response.NonLinearClickTracking(self.cdata(creative.nonLinearClickTracking))
 
             if len(companionAdCreatives) > 0:
                 with response.CompanionAds:
@@ -116,7 +116,7 @@ class VAST(object):
                                 element = getattr(response, resource["type"])
                                 if "creativeType" in resource:
                                     attrs["creativeType"] = resource["creativeType"]
-                                element(resource["uri"], **attrs)
+                                element(self.cdata(resource["uri"]), **attrs)
                                 if "adParameters" in resource:
                                     response.AdParameters(resource["adParameters"]["data"], **{
                                         "xmlEncoded": resource["adParameters"]["xmlEncoded"]
@@ -130,10 +130,10 @@ class VAST(object):
                                         response.Tracking(event.url, **attrs)
 
                             for click in creative.clickThroughs:
-                                response.CompanionClickThrough(click)
+                                response.CompanionClickThrough(self.cdata(click))
 
-                            if creative.nonLinearClickEvent:
-                                response.NonLinearClickTracking(creative.nonLinearClickEvent)
+                            if creative.nonLinearClickTracking:
+                                response.NonLinearClickTracking(self.cdata(creative.nonLinearClickTracking))
 
     def xml(self, options={}):
         track = True if options.get("track", True)  else options.get("track")
