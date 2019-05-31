@@ -1,0 +1,10 @@
+##  2019-05-31
+### Changed
+- LICENCE file changed from GPLV3 to APACHE v2 and fixed licence conflicts 
+between licence file and headers of .py files
+- merged pr#2 this pr will fixed CDATA wrapping and ClickTracking for NonLinear ads.
+ 
+### Added
+- added CHANGELOG file
+
+
