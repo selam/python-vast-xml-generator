@@ -31,9 +31,7 @@ class VAST(object):
         return ad
 
     def cdata(self, param):
-        return """<![CDATA[
-        {param}
-        ]]>""".format(param=param)
+        return "<![CDATA[{param}]]>".format(param=param)
 
     def add_creatives(self, response, ad, track):
         linearCreatives = [c for c in ad.creatives if c.type == "Linear"]
